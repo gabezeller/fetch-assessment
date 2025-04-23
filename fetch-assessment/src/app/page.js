@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { useState } from 'react';
 import { FaUser } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
-
+import { FaBone } from "react-icons/fa6";
 
 
 
@@ -25,6 +25,8 @@ Purple
 export default function Home() {
 
   async function login() {
+    setLoggingIn(true);
+
     const url = "https://frontend-take-home-service.fetch.com/auth/login";
     console.log("logging in...");
     try {
@@ -43,13 +45,21 @@ export default function Home() {
       
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
+        
       }
   
       const json = await response;
       console.log(json);
+      setError(false);
     } catch (error) {
-      console.error(error.message);
+      setError(true);
+      
     }
+    setLoggingIn(false);
+  }
+
+  const openSearch = () => {
+    console.log("opening search page...");
   }
 
   // async function getData() {
@@ -80,8 +90,19 @@ export default function Home() {
   //     console.error(error.message);
   //   }
   // }
+
+  const handleKeyDown = (event) => {
+    console.log("handle key down");
+    if (event.key === 'Enter') {
+      console.log("key is enter key")
+      login();
+    }
+  }
+
   const [name, setName] = useState("Enter Name");
   const [email, setEmail] = useState("Enter email");
+  const [error, setError] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
 
   // console.log("test");
   
@@ -97,14 +118,14 @@ export default function Home() {
             <div className={styles.inputSection}>
               <FaUser className={styles.icon}/>
               <input className={styles.input}type="text" value={name} 
-              onChange={(e) => setName(e.target.value)} />
+              onChange={(e) => setName(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}/>
               
             </div>
 
             <div className={styles.inputSection}>
               <IoMail className={styles.icon}/>
               <input className={styles.input}type="text" value={email} 
-              onChange={(e) => setEmail(e.target.value)}/>
+              onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}/>
               
               
             </div>
@@ -112,12 +133,25 @@ export default function Home() {
 
             
           </div>
+          
+         
+            <button className={styles.loginButton} onClick={login} >
+          
+            
+         
+            
+              {loggingIn ? (<p>Logging in...</p>):(<p>Log in</p>)}
+            
+         
+            
+              
+            </button>
+            <p className={`${styles.errorMessage} ${error ? styles.show : ''}`}>Invalid name or email</p>
+          </div>
+           
 
-          <button className={styles.loginButton} onClick={login}>
-            Login
-          </button>
-
-        </div>
+        {/* </div> */}
+        
 
       </main>
       {/* <footer className={styles.footer}>

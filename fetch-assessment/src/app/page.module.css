@@ -22,6 +22,7 @@ Purple
   align-items: center;
 
   padding-top: 25vh;
+
 }
 .loginBox {
   background-image: linear-gradient(#c598af98,rgba(255, 255, 255, 0.49), rgba(255, 255, 255, 0.49));
@@ -40,6 +41,9 @@ Purple
 
   margin: auto;
 
+  position: relative;
+  
+  z-index: 1;
   
 
 }
@@ -69,7 +73,7 @@ Purple
   
   transition: all 0.5s ease-in-out;
 
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family:'Courier New', Courier, monospace;
   
 }
 
@@ -83,18 +87,67 @@ Purple
 }
 .loginButton {
   background-color: #fbb80f;
+  /* background-color: transparent; */
   width: 200px;
   height: 50px;
 
   border: none;
   border-radius: 20px;
 
-  transition: all 0.1s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   cursor: pointer;
 
   font-family: "DynaPuff", system-ui;
 }
-.loginButton:active {
-  background-color: #ce970b;
+.loginButton:hover {
+  background-color: #de9f00;
 }
+.loginButton:active  {
+  background-color: #c78f00;
+}
+
+/* .boneButton {
+  position: relative;
+  cursor: pointer;
+}
+.bone {
+  width: 200px;
+  height: auto;
+  color:  #fbb80f;
+  margin: 0px;
+  padding: 0px;
+
+  border: solid green 1px;
+}
+.boneText {
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -25px;
+  margin-top: -12.5px;
+} */
+.errorMessage {
+  font-size: small;
+  color: red;
+  display: none;
+
+  position: absolute;
+  
+  /* left: calc(50% - 200px); */
+  bottom: 30px;
+
+  z-index: 10;
+  
+}
+.errorMessage.show {
+  display: unset;
+ 
+}
+/* .buttonContainer {
+  position: relative;
+} */
+
