@@ -1,0 +1,110 @@
+.page {
+    background-color: gainsboro;
+    height: 100vh;
+}
+.main {
+    
+}
+.searchContainer {
+    border: solid black 1px;
+
+    width: 400px;
+    height: 600px;
+
+    border-radius: 20px;
+    padding: 10px;
+}
+.searchTitle {
+    text-align: center;
+}
+.searchSection {
+    /* text-align: center; */
+    width: 300px;
+    border: solid green 1px;
+
+    margin: auto;
+}
+.searchButtons {
+   text-align: right;
+}
+.sortBy {
+    border-radius: 20px;
+    padding: 4px;
+    
+    
+}
+.dropArrow {
+    vertical-align: middle;
+}
+.filter {
+    width: 26px;
+    height: 26px;
+    border-radius: 20px;
+
+    margin-left: 5px;
+    
+}
+.filterIcon {
+    vertical-align: middle;
+    font-size: 1.2em;
+    
+}
+/* .filter span:nth-child(1) {
+    border-bottom: solid black 1px;
+    width: 20px;
+}
+.filterLine {
+    border-bottom: solid black 1px;
+} */
+.searchBar {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 5px; */
+    padding: 0px 7px;
+    border: solid black 1px;
+    border-radius: 20px;
+    height: 30px
+}
+.searchInput {
+    background-color: transparent;
+    border: none;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+.searchInput[type=text]:focus {
+    outline: none;
+}
+.toggleButtons {
+    /* background-color: blue; */
+    width: 140px;
+}
+.toggleButtons > button {
+    padding: 3px;
+}
+.resultsButton {
+    border-radius: 20px 0px 0px 20px;
+}
+.favoritesButton {
+    border-radius: 0px 20px 20px 0px;
+}
+.resultsBox {
+    height: 40%;
+    border: solid orange 1px;
+
+    overflow-y: auto;
+}
+.matchButton {
+
+}
+.dogListing {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    margin: 5px;
+}

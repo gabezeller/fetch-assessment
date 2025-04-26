@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { FaUser } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaBone } from "react-icons/fa6";
+import { useRouter } from 'next/navigation'
 
 
 
@@ -51,15 +52,18 @@ export default function Home() {
       const json = await response;
       console.log(json);
       setError(false);
+      openSearch();
     } catch (error) {
       setError(true);
       
     }
     setLoggingIn(false);
+    
   }
 
   const openSearch = () => {
     console.log("opening search page...");
+    router.push('/search');
   }
 
   // async function getData() {
@@ -99,10 +103,11 @@ export default function Home() {
     }
   }
 
-  const [name, setName] = useState("Enter Name");
-  const [email, setEmail] = useState("Enter email");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
+  const router = useRouter();
 
   // console.log("test");
   
@@ -117,14 +122,14 @@ export default function Home() {
           <div className={styles.inputsContainer}>
             <div className={styles.inputSection}>
               <FaUser className={styles.icon}/>
-              <input className={styles.input}type="text" value={name} 
+              <input className={styles.input}type="text" placeholder="Name" value={name} 
               onChange={(e) => setName(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}/>
               
             </div>
 
             <div className={styles.inputSection}>
               <IoMail className={styles.icon}/>
-              <input className={styles.input}type="text" value={email} 
+              <input className={styles.input}type="text" placeholder="Email" value={email} 
               onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}/>
               
               
