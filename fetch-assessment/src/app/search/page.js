@@ -2,15 +2,16 @@
 
 import styles from "./Search.module.css";
 import Image from "next/image";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaRegHeart, FaHeart } from "react-icons/fa";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Search() {
 
-    const [search, setSearch] = useState("Search for a dog...");
-    const [sortAsc, setSortAsc] = useState(false); // sort ascending true or false (descending)
+    const [breedSearch, setBreedSearch] = useState("");
+    const [sortAsc, setSortAsc] = useState(true); // sort ascending true or false (descending)
     const [breedFilter, setBreedFilter] = useState(""); // filter by breed, default none
     const [showFavorites, setShowFavorites] = useState(false); // all results vs favorites toggle
     // const [searchParams, setSearchParams] = useState(""); // search parameters to conduct search as one string
@@ -20,7 +21,19 @@ export default function Search() {
     const [minAge, setMinAge] = useState("");
     const [maxAge, setMaxAge] = useState("");
 
+    const [favorites, setFavorites] = useState([]);
+
+
+    const [sortOpen, setSortOpen ] = useState(false);
+    const [filterOpen, setFilterOpen] = useState(false);
+
     const [listings, setListings] = useState([]);
+    const [allBreeds, setAllBreeds] = useState([]);
+
+    const [filteredBreeds, setFilteredBreeds] = useState([]);
+
+    const [previewDog, setPreviewDog] = useState(null);
+    const [matchDog, setMatchDog] = useState(null);
 
     async function searchDogs () {
         const params = new URLSearchParams();
@@ -32,7 +45,11 @@ export default function Search() {
 
         if (breed.length) {
             params.append("breeds", breed);
+            setFilteredBreeds([]);
+        } else if (filteredBreeds.length) {
+            params.append("breeds", filteredBreeds);
         }
+        
         if (zipCode.length) {
             params.append("zipCodes", zipCode);
         }
@@ -87,18 +104,47 @@ export default function Search() {
         }
     }
 
-    const renderListing = (dog) => {
-        const {name, breed, img, id} = dog;
 
-        return (
-            <div className={styles.dogListing} key={id}>
-                <Image className={styles.listingImage} src={img} alt={name} width="50" height="50"></Image>
-                <div className={styles.listingBox}>
-                    {name}, the {breed}
-                </div>
-            </div>
-        )
+    const appendFavorites = (dog) => {
+        console.log("adding to favorites...");
+        setFavorites(prevFavorites => [...prevFavorites, dog]);
+        
+
     }
+
+    useEffect(() => {
+        console.log(listings);
+    }, [listings]);
+
+    const removeFavorites = (dog) => {
+        console.log("removing from favorites...");
+        setFavorites(favorites.filter(favDog => favDog.id !== dog.id));
+    }
+
+    // const renderListing = (dog) => {
+    //     const {name, breed, img, id} = dog;
+        
+    //     let liked = favorites.includes(id);
+        
+    //         return (
+            
+    //             <div className={styles.dogListing} key={id}>
+    //                 <Image className={styles.listingImage} src={img} alt={name} width="50" height="50"></Image>
+    //                 <div className={styles.listingBox}>
+    //                     {name}, the {breed}
+    //                 </div>
+    //                 {liked ? <FaHeart className={styles.heartFull} onClick={() => removeFavorites(dog)} /> : <FaRegHeart className={styles.heartIcon} onClick={() => appendFavorites(dog)}/> }
+
+
+    //                 {/* <FaHeart className={styles.heartFull} />
+    //                 <FaRegHeart className={styles.heartIcon} /> */}
+                    
+    //             </div>
+    //         );
+        
+    // }
+
+    
 
     async function getDogsFromIds(dogIds) {
         const url = "https://frontend-take-home-service.fetch.com/dogs";
@@ -134,6 +180,177 @@ export default function Search() {
         }
         
     }
+    async function getDogFromId(dogId) {
+        const url = "https://frontend-take-home-service.fetch.com/dogs";
+        console.log("retrieving one dog from id...");
+
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            
+            headers: {
+              "Content-Type": "application/json",
+              
+            },
+            body: JSON.stringify([dogId]),
+            credentials: "include",
+          }
+            
+          );
+          
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+            
+          }
+      
+          const json = await response.json();
+          console.log(json);
+          return json[0];
+          
+          
+        } catch (error) {
+          
+          
+        }
+        return null;
+        
+    }
+
+    useEffect(() => {
+        const fetchBreeds = async () => {
+            const url = "https://frontend-take-home-service.fetch.com/dogs/breeds";
+            console.log("fetching breeds from ids...");
+    
+    
+            try {
+              const response = await fetch(url, {
+                method: "GET",
+                
+                headers: {
+                  "Content-Type": "application/json",
+                  
+                },
+                
+                credentials: "include",
+              }
+                
+              );
+              
+              if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+                
+              }
+          
+              const json = await response.json();
+              console.log(json);
+              setAllBreeds(json);
+              
+            } catch (error) {
+              
+              
+            }
+        };
+    
+        fetchBreeds();
+    
+        
+      }, []);
+
+    const toggleSortBy = () => {
+        console.log("toggling sort open...");
+        setSortOpen(!sortOpen);
+    }
+
+    const toggleFilter = () => {
+        console.log("toggling filter open...");
+        setFilterOpen(!filterOpen);
+    }
+
+    const renderBreed = (breed) => {
+        if (!(breed.toLowerCase().includes(breedSearch.toLowerCase()))) {
+            return;
+        }
+
+        const handleCheck = (event) => {
+            console.log("handling check...");
+            console.log(event.target.checked);
+            if (event.target.checked) {
+                filteredBreeds.push(breed);
+                
+            } else {
+                console.log("find index = ", filteredBreeds.indexOf(breed));
+                filteredBreeds.splice(filteredBreeds.indexOf(breed), 1);
+            }
+            searchDogs();
+            
+        }
+
+
+        
+        return (
+            <li className={styles.breedListing} key={breed}>
+                <input type="checkbox" id={breed} onChange={handleCheck} defaultChecked={filteredBreeds.includes(breed)} />
+                <label for={breed}>{breed}</label>
+                
+            </li>
+        );
+    }
+    async function generateMatch() {
+        const url = "https://frontend-take-home-service.fetch.com/dogs/match";
+        console.log("generating match...");
+
+        
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            
+            headers: {
+              "Content-Type": "application/json", 
+            },
+            body: JSON.stringify(favorites.map(dog => dog.id)),
+            credentials: "include",
+          }
+            
+          );
+          
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+            
+          }
+      
+          const json = await response.json();
+          console.log(json);
+
+          
+          const match = getDogFromId(json.match);
+          match.then(value => {
+            // Use the value here
+            console.log(value);
+            setMatchDog(value);
+          })
+          .catch(error => {
+            // Handle errors here
+            console.error(error);
+          });
+
+        //   console.log("match = ", match);
+
+          
+          
+
+          
+        } catch (error) {
+          
+          
+        }
+
+    }
+
+    useEffect(() => {
+        console.log("match dog = ", matchDog);
+    }, [matchDog]);
 
 
 
@@ -141,21 +358,46 @@ export default function Search() {
         <div className={styles.page}>
             <main className={styles.main}>
                 <div className={styles.searchContainer}>
-                    <h1 className={styles.searchTitle}>Find your companion</h1>
+                    <h1 className={styles.searchTitle}>Find Your Companion</h1>
                     <div className={styles.searchSection}>
                         <div className={styles.searchButtons}>
 
-                        
-                            <button className={styles.sortBy}>
+                        <div className={styles.sortByContainer}>
+                            <button className={styles.sortBy} onClick={toggleSortBy}>
                                 Sort by
-                                <IoIosArrowDropdown className={styles.dropArrow}/>
+                                <IoIosArrowDropdown className={`${styles.dropArrow} ${sortOpen ? styles.flip : ''}`}/>
+  
                             </button>
-                            <button className={styles.filter}>
-                            <IoFilter className={styles.filterIcon}/>
-                                {/* <span className={styles.filterLine}></span>
-                                <span className={styles.filterLine}></span>
-                                <span className={styles.filterLine}></span> */}
-                            </button>
+                            <div className={`${styles.sortBox} ${sortOpen ? styles.show : ''}`}>
+                                    <ul>
+                                        <li onClick={() => {setSortAsc(true); toggleSortBy(); searchDogs();}} >
+                                            A to Z
+                                        </li>
+                                        <li  onClick={() => {setSortAsc(false); toggleSortBy(); searchDogs();}}>
+                                            Z to A
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ div>
+                            <div className={styles.filterContainer}>
+                                <button className={styles.filter}>
+                                <IoFilter className={styles.filterIcon} onClick={toggleFilter}/>
+                                
+                                </button>
+
+                                <div className={`${styles.filterBox} ${filterOpen ? styles.show : ''}`}>
+                                    <div className={styles.searchBar}>
+                                        <input className={styles.searchInput} type="text" placeholder="Search for breed..." value={breedSearch} onChange={(e) => setBreedSearch(e.target.value)}/>
+                                        <FaSearch />
+                                    </div>
+
+                                    <ul className={styles.breedsList}>
+                                        {allBreeds.length === 0 ? "" : allBreeds.map((breed) => renderBreed(breed))}
+                                    </ul>
+
+                                </div>
+                            </div>
+     
                         </div>
 
                         {/* <div className={styles.searchBar}>
@@ -168,7 +410,7 @@ export default function Search() {
                             <input className={styles.zipCodeInput} type="text" placeholder="ZipCode" value={zipCode} onChange={(e) => setZipCode(e.target.value)}/>
                             <input className={styles.minAgeInput} type="text" placeholder="Min Age" value={minAge} onChange={(e) => setMinAge(e.target.value)}/>
                             <input className={styles.maxAgeINput} type="text" placeholder="Max Age" value={maxAge} onChange={(e) => setMaxAge(e.target.value)}/>
-                            <FaSearch onClick={searchDogs}/>
+                            <FaSearch className={styles.searchIcon} onClick={searchDogs}/>
                         </div>
 
                     
@@ -176,20 +418,88 @@ export default function Search() {
                     </div>
 
                     <div className={styles.toggleButtons}>
-                        <button className={styles.resultsButton}>Results</button>
-                        <button className={styles.favoritesButton}>Favorites</button>
+                        <button className={`${styles.resultsButton} ${showFavorites ? '' : styles.selected}`} onClick={() => setShowFavorites(false)}>Results</button>
+                        <button className={`${styles.favoritesButton} ${showFavorites ? styles.selected : ''}`} onClick={() => setShowFavorites(true)}>Favorites</button>
                     </div>
 
                     <div className={styles.resultsBox}>
-                        {listings.length ? (sortAsc ? listings.map((dog) => renderListing(dog)) : listings.reverse().map((dog) => renderListing(dog))) : <>No results</> }
-                    
+                        {/* {listings.length ? (sortAsc ? listings.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>)) : listings.reverse().map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>))) : <>No results</> } */}
+                        {/* {favorites.length ? (favorites.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>))) : <>No results</> } */}
+                        {showFavorites ?
+                        (favorites.length ? (favorites.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.some(fav => fav.id === dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites} onClick={() => setPreviewDog(dog)}></DogListing>))) : <>No favorites selected</> )
+                            :
+                        (listings.length ? (listings.map((dog) => (<DogListing onClick={() => {setPreviewDog(dog); console.log("setting preview dog...");}} dog={dog} key={dog.id} isLiked={favorites.some(fav => fav.id === dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites} ></DogListing>))) : <>No results</> )
+                    }
                     
                     </div>
 
-                    <button className={styles.matchButton}>Generate match</button>
+                    <button className={styles.matchButton} onClick={generateMatch}>Generate match</button>
 
+                </div>
+                <div className={styles.matchPreviewContainer}>
+                <div className={styles.previewContainer}>
+                    <h2>Preview</h2>
+                        <div className={styles.previewContent}>
+                            {previewDog ? <>
+                            <Image src={previewDog.img} alt={previewDog.name} width="200" height="200"></Image>
+                            <div className={styles.previewText}>
+                                <h3 className={styles.previewName}>{previewDog.name}</h3>
+                                <div className={styles.previewBreed}><b>Breed:</b> {previewDog.breed}</div>
+                                <div className={styles.previewAge}><b>Age: </b>{previewDog.age}</div>
+                                <div className={styles.previewZipcode}><b>ZipCode: </b>{previewDog.zip_code}</div>
+                                
+                            </div>
+                            </>
+                            : <div>Select a dog to preview</div>}
+                        </div>
+                </div>
+
+                    <div className={styles.previewContainer}>
+                        <h2>Your matched companion</h2>
+                            <div className={styles.previewContent}>
+                                {matchDog ? <>
+                                <Image src={matchDog.img} alt={matchDog.name} width="200" height="200"></Image>
+                                <div className={styles.previewText}>
+                                    <h3 className={styles.previewName}>{matchDog.name}</h3>
+                                    <div className={styles.previewBreed}><b>Breed:</b> {matchDog.breed}</div>
+                                    <div className={styles.previewAge}><b>Age: </b>{matchDog.age}</div>
+                                    <div className={styles.previewZipcode}><b>ZipCode: </b>{matchDog.zip_code}</div>
+                                    
+                                </div>
+                                </>
+                                : <div>Select favorites and generate a match</div>}
+                            </div>
+                    </div>
                 </div>
             </main>
         </div>
     );
 }
+
+const DogListing = ({dog, isLiked, removeFavorites, appendFavorites, onClick}) => {
+    const [liked, setLiked] = useState(isLiked);
+    
+    const {name, breed, img, id} = dog;
+   
+    
+    
+        return (
+        
+            <div className={styles.dogListing} key={id} onClick={onClick}>
+                <Image className={styles.listingImage} src={img} alt={name} width="50" height="50"></Image>
+                <div className={styles.listingBox}>
+                    {name}, the {breed}
+                    {liked ? <FaHeart className={styles.heartFull} onClick={(event) => {event.stopPropagation(); removeFavorites(dog); setLiked(false)}} /> : <FaRegHeart className={styles.heartIcon} onClick={(event) => {event.stopPropagation(); appendFavorites(dog); setLiked(true)}}/> }
+
+                </div>
+
+
+                {/* <FaHeart className={styles.heartFull} />
+                <FaRegHeart className={styles.heartIcon} /> */}
+                
+            </div>
+        );
+    
+}
+
+

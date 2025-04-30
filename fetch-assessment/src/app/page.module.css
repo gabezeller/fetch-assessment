@@ -11,9 +11,9 @@ Purple
 #7f4aa4 */
 
 .page {
-  background-image: url("/images/dog-background.jpg");
+  /* background-image: url("/images/dog-background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
   height: 100vh;
 }
 .main {

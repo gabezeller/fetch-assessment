@@ -1,7 +1,15 @@
+body {
+  background-image: url("/images/dog-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -39,4 +47,4 @@ a {
   html {
     color-scheme: dark;
   }
-}
+} */

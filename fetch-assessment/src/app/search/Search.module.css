@@ -1,40 +1,97 @@
 .page {
-    background-color: gainsboro;
+
     height: 100vh;
 }
-.main {
+.searchTitle {
+    
     
 }
+.main {
+    display: flex;
+    flex-direction: row;
+}
 .searchContainer {
+    background-image: linear-gradient(#c598af98,rgba(255, 255, 255, 0.49), rgba(255, 255, 255, 0.49));
+
     border: solid black 1px;
 
     width: 400px;
     height: 600px;
 
-    border-radius: 20px;
+    border-radius: 20px 0 0 20px;
     padding: 10px;
+
+    margin-right: 20px;
 }
 .searchTitle {
     text-align: center;
+    letter-spacing: -2px;
+    
 }
 .searchSection {
     /* text-align: center; */
     width: 300px;
-    border: solid green 1px;
+    
+    /* border: solid green 1px; */
 
     margin: auto;
+    margin-top: 10px;
 }
 .searchButtons {
-   text-align: right;
+   /* text-align: right; */
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: right;
+
+   
 }
 .sortBy {
     border-radius: 20px;
     padding: 4px;
-    
-    
+
+    border: none;
+    background-color: #fbb80f;
+
+    font-family: "PT_Serif", "sans-serif";
 }
 .dropArrow {
     vertical-align: middle;
+    margin-left: 3px;
+
+    transition: all 0.2s ease-in-out;
+}
+.flip {
+    transform: rotate(-180deg);
+}
+.sortBox {
+    width: fit-content;
+    background-color: white;
+    position: absolute;
+    left: 5px;
+    z-index: 10;
+
+    padding: 4px;
+
+    display: none;
+
+    
+    font-family: "PT_Serif", "sans-serif";
+}
+
+.sortBox > ul {
+    list-style-type: none;
+
+}
+.sortBox > ul > li {
+    cursor: pointer;
+}
+.sortBox > ul > li:hover {
+    background-color: gainsboro;
+}
+.sortByContainer {
+    position: relative;
+    width: fit-content;
 }
 .filter {
     width: 26px;
@@ -42,11 +99,46 @@
     border-radius: 20px;
 
     margin-left: 5px;
+
+    border: none;
+    background-color: #fbb80f;
     
+}
+.filterContainer {
+    position: relative;
+    width: fit-content;
 }
 .filterIcon {
     vertical-align: middle;
-    font-size: 1.2em;
+    font-size: 1.2em;   
+    cursor: pointer;
+}
+.filterBox {
+    display: none;
+    width: fit-content;
+    position: absolute;
+    right: 0px;
+    z-index: 10;
+
+    background-color: white;
+    font-family: "PT_Serif", "sans-serif";
+}   
+.show {
+    display: block;
+}
+.breedsList {
+    overflow-y: auto;
+    height: 200px;
+    background-color: white;
+    padding: 4px;
+
+}
+.breedListing  {
+    font-size: .75rem;
+
+    font-family: "PT_Serif", "sans-serif";
+}
+.breedListing > li > input {
     
 }
 /* .filter span:nth-child(1) {
@@ -64,9 +156,11 @@
     align-items: center;
     /* padding: 5px; */
     padding: 0px 7px;
-    border: solid black 1px;
+    /* border: solid black 1px; */
     border-radius: 20px;
-    height: 30px
+    height: 30px;
+
+    width: 90%;
 }
 .searchInput {
     background-color: transparent;
@@ -75,9 +169,48 @@
     width: 100%;
     height: 100%;
     border-radius: 20px;
+    /* background-color: gainsboro; */
 }
 .searchInput[type=text]:focus {
     outline: none;
+}
+
+.searchBoxes > input {
+    background-color: rgba(255, 255, 255, 0.299);
+    
+    /* border: solid black 1px; */
+    border: none;
+    
+    
+
+    width: 60%;
+    padding: 4px;
+    /* height: 100%; */
+    border-radius:5px;
+    margin-bottom: 3px;
+}
+.searchBoxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+.searchBoxes > .searchIcon {
+    background-color: #fbb80f;
+    /* padding-left: 4px; */
+    width: 40px;
+    height: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 20px;
+    margin-top: 5px;
+
+    
+
+
+}
+.searchIcon {
+    cursor: pointer;
 }
 .toggleButtons {
     /* background-color: blue; */
@@ -85,21 +218,53 @@
 }
 .toggleButtons > button {
     padding: 3px;
+    background-color: #c598af62;
+    border: solid black 1px;
+    font-family: "PT_Serif", "sans-serif";
+    cursor: pointer;
 }
 .resultsButton {
     border-radius: 20px 0px 0px 20px;
+    transition: all 0.2s ease-in-out;
+    border-right: none;
 }
 .favoritesButton {
     border-radius: 0px 20px 20px 0px;
+    transition: all 0.2s ease-in-out;
+}
+.toggleButtons > button:hover {
+    filter: brightness(.8);
+}
+.toggleButtons > button.selected {
+    background-color: #c598af;
 }
 .resultsBox {
     height: 40%;
-    border: solid orange 1px;
+    background-color: rgba(255, 255, 255, 0.344);
+    /* border: solid orange 1px; */
+    padding: 5px;
 
     overflow-y: auto;
+    scrollbar-width: thin;
+
+    margin-top: 10px;
+    border-radius: 5px;
 }
 .matchButton {
+    border-radius: 20px;
+    padding: 4px;
+    display: block;
+    cursor: pointer;
 
+    border: none;
+    
+    background-color: #fbb80f;
+
+    font-family: "PT_Serif", "sans-serif";
+    
+    margin: auto;
+    margin-top: 10px;
+    
 }
 .dogListing {
     display: flex;
@@ -107,4 +272,61 @@
     align-items: center;
     
     margin: 5px;
+    position: relative;
+
+    cursor: pointer;
+}
+.listingBox {
+    background-color: white;
+    margin-left: 5px;
+    padding: 4px;
+    width: 90%;
+    height: 50px;
+    border-radius: 0 10px 10px 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.heartIcon {
+    /* position: absolute;
+    right: 10px; */
+    display: block;
+    margin-left: auto;
+    margin-right: 8px;
+    color: black;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+    
+}
+.heartFull {
+    display: block;
+    margin-left: auto;
+    margin-right: 8px;
+    
+    color: red;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
+}
+.previewContainer {
+    background-image: linear-gradient(#c598af98,rgba(255, 255, 255, 0.49), rgba(255, 255, 255, 0.49));
+
+    border: solid black 1px;
+    width: 600px;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+}
+.previewContent {
+    display: flex;
+    flex-direction: row;
+}
+.matchPreviewContainer {
+    display: flex;
+    flex-direction: column;
 }
