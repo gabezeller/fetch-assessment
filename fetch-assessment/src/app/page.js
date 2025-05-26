@@ -27,6 +27,7 @@ export default function Home() {
 
   async function login() {
     setLoggingIn(true);
+    setError(false);
 
     const url = "https://frontend-take-home-service.fetch.com/auth/login";
     console.log("logging in...");
@@ -51,7 +52,7 @@ export default function Home() {
   
       const json = await response;
       console.log(json);
-      setError(false);
+      // setError(false);
       openSearch();
     } catch (error) {
       setError(true);
@@ -66,34 +67,7 @@ export default function Home() {
     router.push('/search');
   }
 
-  // async function getData() {
-  //   const url = "https://frontend-take-home-service.fetch.com/dogs/breeds";
-  //   console.log("testing getData in...");
-  //   try {
-  //     const response = await fetch(url
-  //       , {
-  //       method: "GET",
-        
-  //       headers: {
-  //         "Content-Type": "application/json",
-          
-  //       },
-        
-  //       credentials: "include",
-  //     }
-        
-  //     );
-      
-  //     if (!response.ok) {
-  //       throw new Error(`Response status: ${response.status}`);
-  //     }
-  
-  //     const json = await response.json();
-  //     console.log(json);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // }
+
 
   const handleKeyDown = (event) => {
     console.log("handle key down");
