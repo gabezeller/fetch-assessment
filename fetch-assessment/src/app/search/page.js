@@ -470,10 +470,10 @@ export default function Search() {
                             </button>
                             <div className={`${styles.sortBox} ${sortOpen ? styles.show : ''}`}>
                                     <ul>
-                                        <li onClick={() => {setSortAsc(true); toggleSortBy(); searchDogs();}} >
+                                        <li onClick={() => {setSortAsc(true); toggleSortBy();}} >
                                             A to Z
                                         </li>
-                                        <li  onClick={() => {setSortAsc(false); toggleSortBy(); searchDogs();}}>
+                                        <li  onClick={() => {setSortAsc(false); toggleSortBy();}}>
                                             Z to A
                                         </li>
                                     </ul>
