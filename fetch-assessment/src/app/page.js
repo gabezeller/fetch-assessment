@@ -89,10 +89,13 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <h1 className={styles.pageTitle}>
+          Fido Finder
+        </h1>
         <div className={styles.loginBox}>
-          <h1 className={styles.loginHeader}>
+          <h2 className={styles.loginHeader}>
             Login with email
-          </h1>
+          </h2>
           <div className={styles.inputsContainer}>
             <div className={styles.inputSection}>
               <FaUser className={styles.icon}/>

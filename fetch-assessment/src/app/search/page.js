@@ -7,6 +7,7 @@ import { IoIosArrowDropdown } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function Search() {
 
@@ -37,6 +38,8 @@ export default function Search() {
 
     const [searching, setSearching] = useState(false);
     const [matching, setMatching] = useState(false);
+
+    const [loggingOut, setLoggingOut] = useState(false);
 
     async function searchDogs () {
         setSearching(true);
@@ -265,6 +268,50 @@ export default function Search() {
         
       }, []);
 
+
+    async function logout() {
+        setLoggingOut(true);
+        
+    
+        const url = "https://frontend-take-home-service.fetch.com/auth/logout";
+        console.log("logging out...");
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            
+            headers: {
+              "Content-Type": "application/json",
+              
+            },
+            // body: JSON.stringify({name: name, email: email}),
+            credentials: "include",
+          }
+            
+          );
+          
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+            
+          }
+      
+          const json = await response;
+          console.log(json);
+          openHome();
+         
+        } catch (error) {
+          
+          
+        }
+        setLoggingOut(false);
+    }
+
+    const router = useRouter();
+
+    const openHome = () => {
+        console.log("opening home page...");
+        router.push('/');
+      }
+
     const toggleSortBy = () => {
         console.log("toggling sort open...");
         setSortOpen(!sortOpen);
@@ -397,10 +444,22 @@ export default function Search() {
 
     return (
         <div className={styles.page}>
+            <div className={styles.header}>
+                <h1 className={styles.pageTitle}>
+                    Fido Finder
+                </h1>
+                <button className={styles.logoutButton} onClick={logout} >
+                    {loggingOut ? (<>Logging out...</>):(<>Log out</>)}
+                </button>
+            </div>
+
+            
             <main className={styles.main}>
+            
                 <div className={styles.searchContainer}>
-                    <h1 className={styles.searchTitle}>Find Your Companion</h1>
-                    <div className={styles.searchSection}>
+                <div className={styles.searchSection}>
+                    <h2 className={styles.searchTitle}>Find Your Companion</h2>
+                    
                         <div className={styles.searchButtons}>
 
                         <div className={styles.sortByContainer}>
@@ -458,45 +517,46 @@ export default function Search() {
 
                     </div>
 
-                    <div className={styles.toggleButtons}>
-                        <button className={`${styles.resultsButton} ${showFavorites ? '' : styles.selected}`} onClick={() => setShowFavorites(false)}>Results</button>
-                        <button className={`${styles.favoritesButton} ${showFavorites ? styles.selected : ''}`} onClick={() => setShowFavorites(true)}>Favorites</button>
+                    <div className={styles.resultsSection}>
+                        <div className={styles.toggleButtons}>
+                            <button className={`${styles.resultsButton} ${showFavorites ? '' : styles.selected}`} onClick={() => setShowFavorites(false)}>Results</button>
+                            <button className={`${styles.favoritesButton} ${showFavorites ? styles.selected : ''}`} onClick={() => setShowFavorites(true)}>Favorites</button>
+                        </div>
+
+                        <div className={styles.resultsBox}>
+                            {/* {listings.length ? (sortAsc ? listings.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>)) : listings.reverse().map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>))) : <>No results</> } */}
+                            {/* {favorites.length ? (favorites.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>))) : <>No results</> } */}
+                            {showFavorites ?
+                            (favorites.length ? (favorites.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.some(fav => fav.id === dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites} onClick={() => setPreviewDog(dog)}></DogListing>))) : <>No favorites selected</> )
+                                :
+                            (listings.length ? (listings.map((dog) => (<DogListing onClick={() => {setPreviewDog(dog); console.log("setting preview dog...");}} dog={dog} key={dog.id} isLiked={favorites.some(fav => fav.id === dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites} ></DogListing>))) : (searching ? <>Searching...</> : <>No results</>) )
+                        }
+                        
+                        </div>
+
+                        <button className={styles.matchButton} onClick={generateMatch}>{matching ? <>Matching...</> : <>Generate match</>}</button>
                     </div>
-
-                    <div className={styles.resultsBox}>
-                        {/* {listings.length ? (sortAsc ? listings.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>)) : listings.reverse().map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>))) : <>No results</> } */}
-                        {/* {favorites.length ? (favorites.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.includes(dog)} appendFavorites={appendFavorites} removeFavorites={removeFavorites}></DogListing>))) : <>No results</> } */}
-                        {showFavorites ?
-                        (favorites.length ? (favorites.map((dog) => (<DogListing dog={dog} key={dog.id} isLiked={favorites.some(fav => fav.id === dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites} onClick={() => setPreviewDog(dog)}></DogListing>))) : <>No favorites selected</> )
-                            :
-                        (listings.length ? (listings.map((dog) => (<DogListing onClick={() => {setPreviewDog(dog); console.log("setting preview dog...");}} dog={dog} key={dog.id} isLiked={favorites.some(fav => fav.id === dog.id)} appendFavorites={appendFavorites} removeFavorites={removeFavorites} ></DogListing>))) : (searching ? <>Searching...</> : <>No results</>) )
-                    }
-                    
-                    </div>
-
-                    <button className={styles.matchButton} onClick={generateMatch}>{matching ? <>Matching...</> : <>Generate match</>}</button>
-
                 </div>
                 <div className={styles.matchPreviewContainer}>
-                <div className={`${styles.previewContainer} ${styles.preview}`}>
-                    <h2>Preview</h2>
-                        <div className={styles.previewContent}>
-                            {previewDog ? <>
-                            <div className={styles.previewImageContainer}>
-                                <Image className={styles.previewImage} src={previewDog.img} alt={previewDog.name} width="220" height="220"></Image>
-                           
+                    <div className={`${styles.previewContainer} ${styles.preview}`}>
+                        <h2>Preview</h2>
+                            <div className={styles.previewContent}>
+                                {previewDog ? <>
+                                <div className={styles.previewImageContainer}>
+                                    <Image className={styles.previewImage} src={previewDog.img} alt={previewDog.name} width="220" height="220"></Image>
+                            
+                                </div>
+                                    <div className={styles.previewText}>
+                                    <h3 className={styles.previewName}>{previewDog.name}</h3>
+                                    <div className={styles.previewBreed}><b>Breed:</b> {previewDog.breed}</div>
+                                    <div className={styles.previewAge}><b>Age: </b>{previewDog.age}</div>
+                                    <div className={styles.previewZipcode}><b>ZipCode: </b>{previewDog.zip_code}</div>
+                                    
+                                </div>
+                                </>
+                                : <div>Select a dog to preview</div>}
                             </div>
-                                <div className={styles.previewText}>
-                                <h3 className={styles.previewName}>{previewDog.name}</h3>
-                                <div className={styles.previewBreed}><b>Breed:</b> {previewDog.breed}</div>
-                                <div className={styles.previewAge}><b>Age: </b>{previewDog.age}</div>
-                                <div className={styles.previewZipcode}><b>ZipCode: </b>{previewDog.zip_code}</div>
-                                
-                            </div>
-                            </>
-                            : <div>Select a dog to preview</div>}
-                        </div>
-                </div>
+                    </div>
 
                     <div className={`${styles.previewContainer} ${styles.match}`}>
                         <h2>Your matched companion</h2>
@@ -504,7 +564,7 @@ export default function Search() {
                                 {matchDog ? <>
                                     <div className={styles.previewImageContainer}>
                                         <Image className={styles.previewImage} src={matchDog.img} alt={matchDog.name} width="220" height="220"></Image>
-                           
+                                        
                                     </div>
                                         <div className={styles.previewText}>
                                         <h3 className={styles.previewName}>{matchDog.name}</h3>
