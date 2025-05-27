@@ -1,0 +1,733 @@
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    margin-top: 30px;
+    margin-right: 30px;
+
+    
+}
+.pageTitle {
+    width: 240px;
+    color: white;
+    text-align: center;
+  
+  
+    
+}
+.logoutButton {
+    border-radius: 20px;
+  
+    cursor: pointer;
+    
+
+    width: max-content;
+    height: 25px;
+    
+    border: solid #fbb80f 1px;
+    background-color: #fbb80f00;
+    color: white;
+
+    font-family: "PT_Serif", "sans-serif";
+    
+   
+    transition: all 0.2s ease;
+}
+.logoutButton:hover {
+    background-color: #db9d00;
+}
+.logoutButton:active {
+    width: 70px;
+    height: 22px;
+}
+.main {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 600px;
+
+    
+}
+.searchContainer {
+    background-color: rgb(44, 44, 44);
+    border: solid black 1px;
+
+    width: 400px;
+    height: 100%;
+
+    border-radius: 20px 0 0 20px;
+    padding: 0 10px;
+
+    margin-right: 20px;
+
+    filter: drop-shadow(0px 5px rgba(0, 0, 0, 0.329));
+    animation: flyFromTop 1.1s ease;
+
+}
+.searchTitle {
+    text-align: center;
+    letter-spacing: -2px;
+    
+}
+.searchSection {
+    
+    width: 300px;
+    
+    
+
+    margin: auto;
+    margin-top: 10px;
+}
+.searchButtons {
+  
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: right;
+    height: 26px;
+   
+}
+.sortBy {
+    border-radius: 20px;
+    padding: 4px;
+
+    cursor: pointer;
+    border: none;
+    background-color: #fbb80f;
+    transition: all 0.2s ease;
+    font-family: "PT_Serif", "sans-serif";
+}
+.sortBy:hover {
+    filter: brightness(0.8);
+}
+.sortBy:active {
+    padding: 1px;
+}
+.dropArrow {
+    vertical-align: middle;
+    margin-left: 3px;
+
+    transition: all 0.2s ease;
+}
+.flip {
+    transform: rotate(-180deg);
+}
+
+.sortBox {
+    width: 50px;
+    height: 40px;
+    background-color: white;
+    position: absolute;
+    left: 5px;
+    z-index: 10;
+
+    padding: 4px;
+    color: black;
+    display: none;
+
+    
+    font-family: "PT_Serif", "sans-serif";
+}
+
+.sortBox > ul {
+    list-style-type: none;
+
+    text-align: center;
+
+    
+    
+    margin-top: 2px;
+    padding-left: 0;
+    padding-right: 0;
+
+}
+.sortBox > ul > li {
+    cursor: pointer;
+    
+
+    
+}
+.sortBox > ul > li:hover {
+    background-color: gainsboro;
+}
+.sortByContainer {
+    position: relative;
+    width: fit-content;
+}
+
+    
+
+.filterContainer {
+    position: relative;
+    width: fit-content;
+}
+.filterIcon {
+    vertical-align: middle;
+    
+    font-size: 1.2em;   
+    cursor: pointer;
+    color: black;
+    width: 22px;
+    height: 22px;
+    padding: 2px;
+    border-radius: 20px;
+    
+    margin-left: 5px;
+
+    border: none;
+    background-color: #fbb80f;
+    transition: all 0.2s ease;
+}
+.filterIcon:hover {
+    filter: brightness(0.8);
+}
+.filterIcon:active {
+
+    padding: 1px;
+}
+
+
+.filterBox {
+    display: none;
+    width: 200px;
+    position: absolute;
+    right: 0px;
+    z-index: 10;
+    color: black;
+
+    background-color: white;
+    font-family: "PT_Serif", "sans-serif";
+}   
+.show {
+    display: block;
+}
+.breedsList {
+    overflow-y: auto;
+    height: 200px;
+    background-color: white;
+    padding: 4px;
+
+}
+.breedListing  {
+    font-size: .75rem;
+
+    font-family: "PT_Serif", "sans-serif";
+}
+.breedListing > li > input {
+    
+}
+
+.searchBar {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  
+    padding: 0px 7px;
+   
+    border-radius: 20px;
+    height: 30px;
+
+    width: 90%;
+}
+.searchInput {
+    background-color: transparent;
+    border: none;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    
+}
+.searchInput[type=text]:focus {
+    outline: none;
+}
+
+.searchBoxes > input {
+    background-color: rgba(255, 255, 255, 0.299);
+    color: white;
+    
+    border: none;
+    
+    
+
+    width: 60%;
+    padding: 4px;
+  
+    border-radius:5px;
+    margin-bottom: 3px;
+}
+.searchBoxes >input::placeholder {
+    color: rgba(255, 255, 255, 0.614);
+}
+.searchBoxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    height: 135px;
+}
+.searchBoxes > .searchIcon {
+    background-color: #fbb80f;
+   
+    width: 40px;
+    height: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 20px;
+    margin-top: 5px;
+
+    
+
+
+}
+.searchIcon {
+    cursor: pointer;
+    color: black;
+    transition: all 0.2s ease;
+}
+.searchIcon:hover {
+    filter: brightness(0.8);
+}
+.searchIcon:active {
+   padding: 1px 0px;
+}
+.toggleButtons {
+    
+    width: 140px;
+}
+.toggleButtons > button {
+    padding: 3px;
+    background-color: #a25d81;
+    border: solid black 1px;
+    font-family: "PT_Serif", "sans-serif";
+    cursor: pointer;
+}
+.toggleButtons > button:active {
+    padding: 2px;
+}
+.resultsButton {
+    border-radius: 20px 0px 0px 20px;
+    transition: all 0.2s ease;
+    border-right: none;
+}
+.favoritesButton {
+    border-radius: 0px 20px 20px 0px;
+    transition: all 0.2s ease;
+}
+.toggleButtons > button:hover {
+    filter: brightness(.8);
+}
+.toggleButtons > button.selected {
+    background-color: #cf72a2;
+}
+.resultsSection {
+    height: 100%;
+}
+.resultsBox {
+    height: 40%;
+ 
+    padding: 5px;
+
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.matchButton {
+    border-radius: 20px;
+    padding: 4px;
+    display: block;
+    cursor: pointer;
+
+    border: none;
+    
+    background-color: #fbb80f;
+
+    font-family: "PT_Serif", "sans-serif";
+    
+    margin: auto;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    
+}
+.matchButton:hover {
+    filter: brightness(0.8);
+}
+.matchButton:active {
+    padding: 2px;
+}
+.dogListing {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    margin: 5px;
+    position: relative;
+
+    cursor: pointer;
+
+    color: black;
+
+    transition: all 0.2s ease;
+
+    animation: flyFromLeft 1.2s ease;
+}
+.dogListing:hover {
+    filter: brightness(0.8);
+}
+.listingImageContainer {
+    width: 58px;
+    height: 58px;
+   
+}
+.listingImage {
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-image: linear-gradient(90deg, #c598af98 30%,rgba(255, 255, 255, 0.627) 50%, rgba(255, 255, 255, 0.627) 70% );;
+    background-size: 400%;
+    animation: loading 1.5s infinite linear;
+
+    border-radius: 50%;
+    
+}
+.listingBox {
+    background-color: white;
+    margin-left: 5px;
+    padding: 4px;
+    width: 90%;
+    height: 50px;
+    border-radius: 0 10px 10px 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.heartIcon {
+   
+    display: block;
+    margin-left: auto;
+    margin-right: 8px;
+    color: black;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+    
+}
+.heartFull {
+    display: block;
+    margin-left: auto;
+    margin-right: 8px;
+    
+    color: red;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+.previewContainer {
+   
+    background-color: rgb(44, 44, 44);
+
+    border: solid black 1px;
+    width: 500px;
+    height: 290px;
+
+    display: flex;
+    flex-direction: column;
+
+    filter: drop-shadow(0px 5px rgba(0, 0, 0, 0.329));
+}
+.previewContainer > h2 {
+    margin-left: 20px;
+
+}
+.previewContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px;
+
+    
+
+}
+.previewImage {
+    
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    background-image: linear-gradient(90deg,#c598af98 30%,rgba(255, 255, 255, 0.627) 50%, rgba(255, 255, 255, 0.627) 70% );;
+    background-size: 400%;
+    animation: loading 1.5s infinite linear;
+}
+.previewImageContainer {
+    width: 180px;
+    height: 180px;
+    flex: none;
+    
+}
+.previewText  {
+    font-size: 1.25rem;
+    margin-left: 20px;
+    border-left: solid #fbb80f 2px;
+    padding-left: 20px;
+
+    
+    
+}
+.previewName {
+    margin: 0px;
+    margin-bottom: 20px;
+}
+.matchPreviewContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    margin: 0px;
+
+}
+.preview {
+    border-top-right-radius: 20px;
+    animation: flyFromRight 1.3s ease;
+}
+
+@keyframes flyFromBottom {
+    from {transform: translateY(100vh);}
+    to {transform: translateY(0);}
+}
+@keyframes flyFromTop {
+    from {transform: translateY(-100vh);}
+    to {transform: translateY(0);}
+}
+@keyframes flyFromRight {
+    from {transform: translateX(100vw);}
+    to {transform: translateX(0);}
+}
+@keyframes flyFromLeft {
+    from {transform: translateX(-170%);}
+    to {transform: translateX(0);}
+}
+@keyframes widthChange {
+    from {width: 0px;}
+    to {width: 200px;}
+}
+@keyframes skewChange {
+    from {    transform: skew(0deg, 15deg);}
+    to {transform: skew(0deg, 0deg);}
+}
+.match {
+    border-bottom-right-radius: 20px;
+    animation: flyFromBottom 1.5s ease;
+}
+
+.test {
+    width: 100px;
+    height: 100px;
+
+    
+   
+
+    background-image: linear-gradient(90deg, #c598af98 30%,rgba(255, 255, 255, 0.627) 50%, rgba(255, 255, 255, 0.627) 70% );;
+    background-size: 400%;
+    animation: loading 1.5s infinite linear;
+}
+
+@keyframes loading {
+
+
+    from {
+        background-position: 70% 70%;
+    }
+    to {
+        background-position: 0 0;
+    }
+}
+
+@media (max-width: 599px) {
+    
+    .main {
+        flex-direction: column;
+        
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 30px;
+        height: unset;
+
+        padding-top: unset;
+
+
+     
+    }
+    .searchContainer {
+        margin: 0 0;
+        border: none;
+        border-radius: 20px 20px 20px 20px;
+        width: 100%;
+
+        
+        
+    }
+    .resultsSection {
+        padding: 10px;
+        height: 100%;
+    }
+    .matchPreviewContainer {
+        margin: 0 0 ;
+        width: calc(100% + 20px);
+    
+        
+    }
+    .previewContainer {
+      
+        width: 100%;
+        border-radius: 20px 20px 20px 20px;
+        margin-top: 20px;
+        
+    }
+    .previewContainer > h2 {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .resultsBox {
+     
+        height: 250px;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+    .main {
+        flex-direction: column;
+
+        height: unset;
+        padding-top: unset;
+
+        padding-bottom: 30px;
+    
+    }
+    .searchContainer {
+        display: flex;
+        flex-direction: row;
+
+        width: 80%;
+        height: 400px;
+        flex: none;
+        border-radius: 20px 20px 0px 0px;
+
+        margin-right: unset;
+        
+
+        animation: flyFromLeft 1.1s ease;
+
+    }
+    .searchSection {
+     
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+
+
+    }
+ 
+    .resultsBox {
+        height: 100%;
+        width: 100%;
+    }
+
+    .toggleButtons {
+        width: max-content;
+        
+    }
+    .resultsSection {
+        display: flex;
+        flex-direction: column;
+
+        align-items: flex-end;
+        padding: 10px;
+
+        width: 60%;
+        height: 90%;
+        flex: none;
+
+        
+        
+    }
+    .previewContainer {
+        width: 372.25px;
+        height: 400px;
+       
+        
+        
+    }
+    .previewContainer > h2 {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .previewContent {
+        flex-direction: column;
+        margin-left: 20px;
+        align-items: start;
+
+        
+    }
+    .previewImageContainer {
+        width: 160px;
+        height: 160px;
+    }
+    .previewImage {
+        border-bottom-right-radius: 15px;
+    }
+    .previewImageContainer {
+        padding-bottom: 10px;
+        padding-right: 10px;
+        border-bottom: solid #fbb80f 2px;
+        border-right: solid #fbb80f 2px;
+
+        border-bottom-right-radius: 20px;
+    }
+    .previewText {
+        
+
+        border-left: none;
+        margin-top: 10px;
+        margin-left: 0;
+        padding-left: 0;
+
+        font-size: 1.15rem;
+    }
+    .preview {
+        border-radius: 0 0 0 20px;
+        animation: flyFromBottom 1.3s ease;
+    }
+    .match {
+        animation: flyFromRight 1.2s ease;
+    }
+    .matchPreviewContainer {
+        flex-direction: row;
+       
+        width: calc(80% + 20px);
+        
+        
+        padding: 10px;
+
+       
+    }
+}
+
+
+
+

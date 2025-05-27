@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { FaUser } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
 import { FaBone } from "react-icons/fa6";
+import { useRouter } from 'next/navigation'
 
 
 
@@ -26,6 +27,7 @@ export default function Home() {
 
   async function login() {
     setLoggingIn(true);
+    setError(false);
 
     const url = "https://frontend-take-home-service.fetch.com/auth/login";
     console.log("logging in...");
@@ -50,46 +52,22 @@ export default function Home() {
   
       const json = await response;
       console.log(json);
-      setError(false);
+      // setError(false);
+      openSearch();
     } catch (error) {
       setError(true);
       
     }
     setLoggingIn(false);
+    
   }
 
   const openSearch = () => {
     console.log("opening search page...");
+    router.push('/search');
   }
 
-  // async function getData() {
-  //   const url = "https://frontend-take-home-service.fetch.com/dogs/breeds";
-  //   console.log("testing getData in...");
-  //   try {
-  //     const response = await fetch(url
-  //       , {
-  //       method: "GET",
-        
-  //       headers: {
-  //         "Content-Type": "application/json",
-          
-  //       },
-        
-  //       credentials: "include",
-  //     }
-        
-  //     );
-      
-  //     if (!response.ok) {
-  //       throw new Error(`Response status: ${response.status}`);
-  //     }
-  
-  //     const json = await response.json();
-  //     console.log(json);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // }
+
 
   const handleKeyDown = (event) => {
     console.log("handle key down");
@@ -99,10 +77,11 @@ export default function Home() {
     }
   }
 
-  const [name, setName] = useState("Enter Name");
-  const [email, setEmail] = useState("Enter email");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
+  const router = useRouter();
 
   // console.log("test");
   
@@ -110,21 +89,24 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <h1 className={styles.pageTitle}>
+          Fido Finder
+        </h1>
         <div className={styles.loginBox}>
-          <h1 className={styles.loginHeader}>
+          <h2 className={styles.loginHeader}>
             Login with email
-          </h1>
+          </h2>
           <div className={styles.inputsContainer}>
             <div className={styles.inputSection}>
               <FaUser className={styles.icon}/>
-              <input className={styles.input}type="text" value={name} 
+              <input className={styles.input}type="text" placeholder="Name" value={name} 
               onChange={(e) => setName(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}/>
               
             </div>
 
             <div className={styles.inputSection}>
               <IoMail className={styles.icon}/>
-              <input className={styles.input}type="text" value={email} 
+              <input className={styles.input}type="text" placeholder="Email" value={email} 
               onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}/>
               
               
